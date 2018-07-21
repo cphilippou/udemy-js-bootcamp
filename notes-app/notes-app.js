@@ -1,37 +1,35 @@
 //DOM - doument object model
 
-// query firt <p> and remove
-// const p = document.querySelector('p')
-// p.remove()
+const notes = [{
+    title: 'My next trip',
+    body: 'I would like to go to Spain'
+}, {
+    title: 'Habbits to work on',
+    body: 'Exercise. Eating a bit better.'
+}, {
+    title: 'Office modification',
+    body: 'Get a new seat'
+}]
 
-// query all <p> and remove all of them
-// const ps = document.querySelectorAll('p')
-// ps.forEach( function (p, index) {
-//     console.log(p)
-//     if (index === 0) {
-//         p.textContent = 'New Text 1'
-//         // p.textContent.toUpperCase  - could not make this work
+const filters = {
+    searchText: ''
+}
 
-//     } else {
-//         p.textContent = 'new text 2'
-        
-//     }
+const renderNotes = function (notes, filters) {
+    const filteredNotes = notes.filter(function(note, index){
+        return note.title.toLowerCase().includes(filters.searchText.toLowerCase())
+    })
 
-//     // p.remove()
-// })
+    document.querySelector('#notes').innerHTML = ''
 
-// //Add new element
-// const newParagraph = document.createElement('p')
-// newParagraph.textContent = 'This is my new paragraph'
-// document.querySelector('body').appendChild(newParagraph)
+    filteredNotes.forEach(function(note, index){
+        const noteEl = document.createElement('p')
+        noteEl.textContent = note.title
+        document.querySelector('#notes').appendChild(noteEl)
+    })
+}
 
-// document.querySelector('button').addEventListener('click', function(e){
-//    if (e.target.textContent === 'clicked') {
-//         e.target.textContent = 'Add Note'
-//    } else {
-//         e.target.textContent = 'clicked'
-//    }
-// })
+renderNotes(notes,filters)
 
 document.querySelector('#add-note').addEventListener('click', function(e) {
     e.target.textContent = 'add note clicked'
@@ -45,5 +43,6 @@ document.querySelector('#remove-all').addEventListener('click', function(e){
 })
 
 document.querySelector('#search-text').addEventListener('input', function(e){
-    console.log(e)
+    filters.searchText = e.target.value
+    renderNotes(notes, filters)
 })
