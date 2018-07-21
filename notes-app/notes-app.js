@@ -43,3 +43,7 @@ document.querySelector('#remove-all').addEventListener('click', function(e){
         n.remove()
     })
 })
+
+document.querySelector('#search-text').addEventListener('input', function(e){
+    console.log(e)
+})

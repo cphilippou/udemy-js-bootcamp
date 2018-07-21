@@ -45,3 +45,7 @@ getThingsToDo.forEach(function(item, index) {
 document.querySelector('#add-todo').addEventListener('click', function(){
     console.log('add a todo')
 })
+
+document.querySelector('#add-new').addEventListener('input', function(e){
+    console.log(e.target.value)
+})
