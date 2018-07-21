@@ -17,13 +17,17 @@ const todos = [{
 
 
 const filters = {
-    searchText: ''
+    searchText: '',
+    hideCompleted: false
 }
 
 const renderTodos = function(todos, filters){
     const filteredTodos = todos.filter(function(todo, index){
-        // return !todo.completed && todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
-        return todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
+        if (!filters.hideCompleted) {
+            return (todo.text.toLowerCase().includes(filters.searchText.toLowerCase())) 
+        } else {
+            return (todo.text.toLowerCase().includes(filters.searchText.toLowerCase())) && (!todo.completed)
+        }
     })
 
     const incompleteTodos = todos.filter(function(todo, index){
@@ -48,16 +52,21 @@ renderTodos(todos, filters)
 
 document.querySelector('#add-todo').addEventListener('submit', function(e){
     e.preventDefault()
-    const newToDo = {
+
+    todos.push({
         text: e.target.elements.newToDo.value,
         completed: false
-    }
-    todos.push(newToDo)
+    })
     renderTodos(todos, filters)
     e.target.elements.newToDo.value = ''
 })
 
 document.querySelector('#search-todo').addEventListener('input', function(e){
     filters.searchText = e.target.value
+    renderTodos(todos, filters)
+})
+
+document.querySelector('#hide-completed').addEventListener('change', function(e){
+    filters.hideCompleted = e.target.checked
     renderTodos(todos, filters)
 })
