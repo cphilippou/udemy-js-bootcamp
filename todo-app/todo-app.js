@@ -1,24 +1,15 @@
-const todos = [{
-    text:'todo 1',
-    completed: false
- }, {
-     text: 'todo 2',
-     completed: true
-  }, {
-      text: 'todo 3',
-      completed: false
-  }, {
-      text:'todo 4',
-      completed: false 
-  }, {
-      text: 'todo 5',
-      completed: true
-  }]
+let todos = []
 
 
 const filters = {
     searchText: '',
     hideCompleted: false
+}
+
+// get data from local storage
+const todosJSON = localStorage.getItem('todos')
+if (todosJSON !== null) {
+    todos = JSON.parse(todosJSON)
 }
 
 const renderTodos = function(todos, filters){
@@ -57,6 +48,10 @@ document.querySelector('#add-todo').addEventListener('submit', function(e){
         text: e.target.elements.newToDo.value,
         completed: false
     })
+
+    //store notes in localStorage
+    localStorage.setItem('todos',JSON.stringify(todos))
+    
     renderTodos(todos, filters)
     e.target.elements.newToDo.value = ''
 })

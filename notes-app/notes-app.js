@@ -1,19 +1,14 @@
-//DOM - doument object model
-
-const notes = [{
-    title: 'My next trip',
-    body: 'I would like to go to Spain'
-}, {
-    title: 'Habbits to work on',
-    body: 'Exercise. Eating a bit better.'
-}, {
-    title: 'Office modification',
-    body: 'Get a new seat'
-}]
+let notes = []
 
 const filters = {
     searchText: ''
 }
+
+const notesJSON = localStorage.getItem('notes')
+if (notesJSON !== null) {
+    notes = JSON.parse(notesJSON)
+}
+
 
 const renderNotes = function (notes, filters) {
     const filteredNotes = notes.filter(function(note, index){
@@ -24,7 +19,12 @@ const renderNotes = function (notes, filters) {
 
     filteredNotes.forEach(function(note, index){
         const noteEl = document.createElement('p')
-        noteEl.textContent = note.title
+        if (note.title.length > 0) {
+            noteEl.textContent = note.title   
+        } else {
+            noteEl.textContent = 'Unknown title'
+        }
+        
         document.querySelector('#notes').appendChild(noteEl)
     })
 }
@@ -32,18 +32,17 @@ const renderNotes = function (notes, filters) {
 renderNotes(notes,filters)
 
 document.querySelector('#add-note').addEventListener('click', function(e) {
-    e.target.textContent = 'add note clicked'
+    notes.push({
+        title: '',
+        body: ''
+    })
+    localStorage.setItem('notes', JSON.stringify(notes))
+    renderNotes(notes,filters)
 })
 
 document.querySelector('#search-text').addEventListener('input', function(e){
     filters.searchText = e.target.value
     renderNotes(notes, filters)
-})
-
-document.querySelector('#name-form').addEventListener('submit', function(e){
-    e.preventDefault()
-    console.log(e.target.elements.firstName.value)
-    e.target.elements.firstName.value = ''
 })
 
 document.querySelector('#filter-by').addEventListener('change', function(e) {
