@@ -13,10 +13,51 @@ const saveTodos = function (todos) {
     localStorage.setItem('todos',JSON.stringify(todos))
 }
 
+const removeTodo = function(id) {
+    const todoIndex = todos.findIndex(function(todo){
+        return todo.id === id
+    })
+    if (todoIndex > -1) {
+        todos.splice(todoIndex, 1)
+    }
+}
+
+const toggleTodo = function (id){
+    const todo = todos.find(function(todo){
+        return todo.id === id
+    })
+    if (todo !== undefined) {
+        todo.completed = !todo.completed
+    }
+}
+
 //
 const generateTodoDOM = function (todo) {
-    const todoEl = document.createElement('p')
-    todoEl.textContent = todo.text
+    const todoEl = document.createElement('div')
+    const textEl = document.createElement('span')
+    const checkbox = document.createElement('input')
+    const removeButton = document.createElement('button')
+    
+    checkbox.setAttribute('type', 'checkbox')
+    checkbox.checked = todo.completed
+    todoEl.appendChild(checkbox)
+    checkbox.addEventListener('change', function(){
+        toggleTodo(todo.id)
+        renderTodos(todos,filters)
+        saveTodos(todos)
+    })
+
+    textEl.textContent = todo.text
+    todoEl.appendChild(textEl)
+
+    removeButton.textContent = 'x'
+    todoEl.appendChild(removeButton)
+    removeButton.addEventListener('click', function(){
+        removeTodo(todo.id)
+        renderTodos(todos,filters)
+        saveTodos(todos)
+    })
+    
     return todoEl
 }
 
@@ -30,7 +71,7 @@ const generateSummaryTodoDOM = function (incompleteTodos) {
 //
 const renderTodos = function(todos, filters){
     const filteredTodos = todos.filter(function(todo, index){
-        debugger
+        
         if (!filters.hideCompleted) {
             return (todo.text.toLowerCase().includes(filters.searchText.toLowerCase())) 
         } else {
