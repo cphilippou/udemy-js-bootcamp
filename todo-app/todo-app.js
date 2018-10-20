@@ -1,3 +1,10 @@
+// todo object
+// {
+//     id:,
+//     text:string,
+//     completed : boolean
+// }
+
 
 const filters = {
     searchText: '',
