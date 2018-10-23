@@ -1,18 +1,16 @@
 
-const hangman1 = new Hangman ('Cat', 2)
+const hangman1 = new Hangman ('Car Parts', 2)
 const puzzleEl = document.querySelector('#puzzle')
-puzzleEl.textContent = hangman1.getPuzzle()
+puzzleEl.textContent = hangman1.puzzle
 const guessesEl = document.querySelector('#guesses')
-guessesEl.textContent = hangman1.getStatus()
+guessesEl.textContent = hangman1.statusMsg
 
 console.log(hangman1.status)
 
 window.addEventListener('keypress', function(e){
-    if (hangman1.status = 'playing') {
-        const guess = String.fromCharCode(e.charCode)
-        hangman1.makeGuess(guess)
-        puzzleEl.textContent = hangman1.getPuzzle()
-        guessesEl.textContent = hangman1.getStatus()
-        console.log(hangman1.status)
-    }
+    
+    const guess = String.fromCharCode(e.charCode)
+    hangman1.makeGuess(guess)
+    puzzleEl.textContent = hangman1.puzzle
+    guessesEl.textContent = hangman1.statusMsg
 })
